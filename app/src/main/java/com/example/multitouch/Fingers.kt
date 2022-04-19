@@ -1,9 +1,7 @@
 package com.example.multitouch
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
+import android.graphics.*
 import android.view.MotionEvent
 import android.view.View
 
@@ -17,10 +15,13 @@ class Fingers(context: Context?) : View(context) {
     var yPos = FloatArray(20)
     var rainbow = IntArray(7)
 
+    lateinit var bitmap: Bitmap
+
     init {
         rainbow = context?.getResources()!!.getIntArray(R.array.rainbow)
+        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.robot)
     }
-    
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas.drawColor(Color.LTGRAY)
@@ -33,6 +34,11 @@ class Fingers(context: Context?) : View(context) {
         paint.color = Color.BLUE
         paint.textSize = 50f
         canvas.drawText("多指觸控，圓形呈現彩虹顏色！", 50f,200f, paint)
+
+        var SrcRect:Rect = Rect(0, 0, bitmap.width, bitmap.height) //裁切(顯示全部)
+        var DestRect:Rect = Rect(200, 300,
+            bitmap.width/4+200, bitmap.height/4+300) //原圖較大，縮成1/4顯示
+        canvas.drawBitmap(bitmap, SrcRect, DestRect, paint)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean{
