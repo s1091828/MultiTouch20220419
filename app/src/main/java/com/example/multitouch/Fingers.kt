@@ -15,17 +15,24 @@ class Fingers(context: Context?) : View(context) {
     var Count:Int = 0;
     var xPos = FloatArray(20)
     var yPos = FloatArray(20)
+    var rainbow = IntArray(7)
 
-
+    init {
+        rainbow = context?.getResources()!!.getIntArray(R.array.rainbow)
+    }
+    
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas.drawColor(Color.LTGRAY)
-        
+
         for (i in 0..Count-1) {
-            paint.color = Color.YELLOW
+            paint.color = rainbow[i % 7]
             canvas.drawCircle(xPos[i], yPos[i], 80f, paint)
         }
 
+        paint.color = Color.BLUE
+        paint.textSize = 50f
+        canvas.drawText("多指觸控，圓形呈現彩虹顏色！", 50f,200f, paint)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean{
